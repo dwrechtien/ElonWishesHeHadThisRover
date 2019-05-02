@@ -17,8 +17,8 @@ SR04 sensor1 = SR04(SENSOR1ECHO, SENSOR1TRIG); //The class object for sensor 1
 SR04 sensor2 = SR04(SENSOR2ECHO, SENSOR2TRIG); //The class object for sensor 2
 long distSensor1;
 long distSensor2;
-float quarterSecAverageDist1;
-float quarterSecAverageDist2;
+float quarterSecAverageDistLeft;
+float quarterSecAverageDistRight;
 
 //Prototypes
 
@@ -40,9 +40,37 @@ void setup()
 
 void loop()
 {
+  forward();
+  forward();
+  forward();
+  forward();
+
+  delay(2000);
+  
+  back();
+  back();
+  back();
+  back();
+
+  delay(2000);
+  
+  right();
+  right();
+  right();
+  right();
+
+  delay(2000);
+
+  left();
+  left();
+  left();
+  left();
+
+  delay(10000); //Waits 10 seconds and then repeats
+  
   //Getting the two second distance average
-  quarterSecAverageDist1 = 0;
-  quarterSecAverageDist2 = 0;
+  /*quarterSecAverageDistLeft = 0;
+  quarterSecAverageDistRight = 0;
   int count = 0;
   int notTimeUp = 1;
   int timer = 0;
@@ -52,12 +80,12 @@ void loop()
     if(distSensor1 > 1000){
       distSensor1 = 0;
     }
-    quarterSecAverageDist1 += distSensor1;
+    quarterSecAverageDistLeft += distSensor1;
     distSensor2 = sensor2.Distance();
     if(distSensor2 > 1000){
       distSensor2 = 0;
     }
-    quarterSecAverageDist2 += distSensor2;
+    quarterSecAverageDistRight += distSensor2;
     timer += 50;
     count += 1;
     delay(25);
@@ -65,24 +93,24 @@ void loop()
       notTimeUp = 0;
     }
   }
-  quarterSecAverageDist1 = quarterSecAverageDist1 / count;
-  quarterSecAverageDist2 = quarterSecAverageDist2 /count;
+  quarterSecAverageDistLeft = quarterSecAverageDistLeft / count;
+  quarterSecAverageDistRight = quarterSecAverageDistRight /count;
   
-  Serial.print("How far object 1 is 2 sec average in cm: ");
-  Serial.println(quarterSecAverageDist1);
-  Serial.print("How far object 1 is 2 sec average in cm: ");
-  Serial.println(quarterSecAverageDist2);
+  Serial.print("2 Second Average Left: ");
+  Serial.println(quarterSecAverageDistLeft);
+  Serial.print("2 Second Average Right: ");
+  Serial.println(quarterSecAverageDistRight);
   //Moving the motors
-  if(quarterSecAverageDist1 > quarterSecAverageDist2){
+  if(quarterSecAverageDistLeft > quarterSecAverageDistRight){
      forward();
   }
-  if(quarterSecAverageDist2 > quarterSecAverageDist1){
+  if(quarterSecAverageDistLeft > quarterSecAverageDistRight){
     back();
-  }
+  }*/
 }
 
 void forward(){
-  analogWrite(pwm_a, 0);  //Takes half a second to stop spinning the motors
+  analogWrite(pwm_a, 0);  //Takes a quarter second to stop spinning the motors
   analogWrite(pwm_b, 0);
   
   delay(250); //Pauses for half of a second
@@ -90,14 +118,14 @@ void forward(){
   digitalWrite(dir_a, LOW); //Sets direction to forward 
   digitalWrite(dir_b, LOW);  
   
-  analogWrite(pwm_a, 200); //Moves forward for 2.5 seconds
-  analogWrite(pwm_b, 200);
+  analogWrite(pwm_a, 100); //Moves forward for 2.5 seconds
+  analogWrite(pwm_b, 100);
   
-  delay(1000);
+  delay(500);
 }
 
 void back(){
-  analogWrite(pwm_a, 0);  //Takes half a second to stop spinning the motors
+  analogWrite(pwm_a, 0);  //Takes a quarter second to stop spinning the motors
   analogWrite(pwm_b, 0);
   
   delay(250); //Pauses for half of a second
@@ -105,8 +133,42 @@ void back(){
   digitalWrite(dir_a, HIGH); //Sets direction to backward
   digitalWrite(dir_b, HIGH);  
   
-  analogWrite(pwm_a, 200); //Moves backward for one second
-  analogWrite(pwm_b, 200);
+  analogWrite(pwm_a, 100); //Moves backward for one second
+  analogWrite(pwm_b, 100);
   
-  delay(1000);
+  delay(500); //Wait half a second
 }
+
+void left(){
+  analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
+  analogWrite(pwm_b, 0); 
+
+  delay(250);
+
+  digitalWrite(dir_a, HIGH); //Sets left motor forward
+  digitalWrite(dir_b, LOW); //Sets right motor backward
+
+  analogWrite(pwm_a, 100); //Left motor forward at 100 magnitude
+  analogWrite(pwm_b, 100); //Right motor forward at 100 magnitude
+
+  delay(500); //Motors are active for half of a second
+}
+
+void right(){
+  analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
+  analogWrite(pwm_b, 0); 
+
+  delay(250);
+
+  digitalWrite(dir_a, LOW); //Sets left motor backward
+  digitalWrite(dir_b, HIGH); //Sets right motor forward
+
+  analogWrite(pwm_a, 100); //Left motor forward at 100 magnitude
+  analogWrite(pwm_b, 100); //Right motor forward at 100 magnitude
+
+  delay(500); //Motors are active for half of a second
+}
+
+  
+  
+  
