@@ -40,6 +40,7 @@ void setup()
 
 void loop()
 {
+  /* Directional Testing
   forward();
   forward();
   forward();
@@ -66,10 +67,10 @@ void loop()
   left();
   left();
 
-  delay(10000); //Waits 10 seconds and then repeats
+  delay(10000); //Waits 10 seconds and then repeats*/
   
   //Getting the two second distance average
-  /*quarterSecAverageDistLeft = 0;
+  quarterSecAverageDistLeft = 0;
   quarterSecAverageDistRight = 0;
   int count = 0;
   int notTimeUp = 1;
@@ -101,74 +102,84 @@ void loop()
   Serial.print("2 Second Average Right: ");
   Serial.println(quarterSecAverageDistRight);
   //Moving the motors
-  if(quarterSecAverageDistLeft > quarterSecAverageDistRight){
-     forward();
+  if(quarterSecAverageDistLeft < 50){
+    analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
+    analogWrite(pwm_b, 0); 
+    delay(250);
+     for(int i = 0; i < 5; i ++){
+        right();
+     }
   }
-  if(quarterSecAverageDistLeft > quarterSecAverageDistRight){
-    back();
-  }*/
+  else if(quarterSecAverageDistRight < 50) {
+    analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
+    analogWrite(pwm_b, 0); 
+    delay(250);
+     for(int j = 0; j < 5; j++){
+        left();
+     }
+  }
+  else{
+    analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
+    analogWrite(pwm_b, 0); 
+    delay(250);
+    for(int k = 0; k < 5; k++){
+      forward();
+    }
+  }
 }
 
 void forward(){
-  analogWrite(pwm_a, 0);  //Takes a quarter second to stop spinning the motors
+  /*analogWrite(pwm_a, 0);  //Takes a quarter second to stop spinning the motors
   analogWrite(pwm_b, 0);
-  
-  delay(250); //Pauses for half of a second
+  delay(250);*/
   
   digitalWrite(dir_a, LOW); //Sets direction to forward 
   digitalWrite(dir_b, LOW);  
   
-  analogWrite(pwm_a, 100); //Moves forward for 2.5 seconds
-  analogWrite(pwm_b, 100);
+  analogWrite(pwm_a, 40); //Moves forward for 2.5 seconds
+  analogWrite(pwm_b, 40);
   
   delay(500);
 }
 
 void back(){
-  analogWrite(pwm_a, 0);  //Takes a quarter second to stop spinning the motors
+  /*analogWrite(pwm_a, 0);  //Takes a quarter second to stop spinning the motors
   analogWrite(pwm_b, 0);
-  
-  delay(250); //Pauses for half of a second
+  delay(250);*/
   
   digitalWrite(dir_a, HIGH); //Sets direction to backward
   digitalWrite(dir_b, HIGH);  
   
-  analogWrite(pwm_a, 100); //Moves backward for one second
-  analogWrite(pwm_b, 100);
+  analogWrite(pwm_a, 40); //Moves backward for one second
+  analogWrite(pwm_b, 40);
   
   delay(500); //Wait half a second
 }
 
 void left(){
-  analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
+  /*analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
   analogWrite(pwm_b, 0); 
-
-  delay(250);
+  delay(250);*/
 
   digitalWrite(dir_a, HIGH); //Sets left motor forward
   digitalWrite(dir_b, LOW); //Sets right motor backward
 
-  analogWrite(pwm_a, 100); //Left motor forward at 100 magnitude
-  analogWrite(pwm_b, 100); //Right motor forward at 100 magnitude
+  analogWrite(pwm_a, 40); //Left motor forward at 100 magnitude
+  analogWrite(pwm_b, 40); //Right motor forward at 100 magnitude
 
   delay(500); //Motors are active for half of a second
 }
 
 void right(){
-  analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
+  /*analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
   analogWrite(pwm_b, 0); 
-
-  delay(250);
+  delay(250);*/
 
   digitalWrite(dir_a, LOW); //Sets left motor backward
   digitalWrite(dir_b, HIGH); //Sets right motor forward
 
-  analogWrite(pwm_a, 100); //Left motor forward at 100 magnitude
-  analogWrite(pwm_b, 100); //Right motor forward at 100 magnitude
+  analogWrite(pwm_a, 40); //Left motor forward at 100 magnitude
+  analogWrite(pwm_b, 40); //Right motor forward at 100 magnitude
 
   delay(500); //Motors are active for half of a second
 }
-
-  
-  
-  
