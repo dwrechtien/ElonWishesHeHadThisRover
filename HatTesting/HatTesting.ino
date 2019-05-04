@@ -102,13 +102,13 @@ void loop()
   Serial.print("2 Second Average Right: ");
   Serial.println(quarterSecAverageDistRight);
   //Moving the motors
-  if(quarterSecAverageDistLeft < 50){
+  if(quarterSecAverageDistLeft < 50 && quarterSecAverageDistLeft != 0){
     analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
     analogWrite(pwm_b, 0); 
     delay(250);
     right(180);
   }
-  else if(quarterSecAverageDistRight < 50) {
+  else if(quarterSecAverageDistRight < 50 && quarterSecAverageDistRight != 0) {
     analogWrite(pwm_a, 0); //Takes a quarter second to stop spinning the motors
     analogWrite(pwm_b, 0); 
     delay(250);
